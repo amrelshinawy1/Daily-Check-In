@@ -1,0 +1,133 @@
+version: '3.8'
+
+services:
+  # Backend API Service
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+      target: runner
+    container_name: daily-checkin-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - FRONTEND_URL=http://localhost:3000
+    networks:
+      - daily-checkin-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/checkin/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # Frontend Web App
+  frontend:
+    build:
+      context: ./apps/client
+      dockerfile: Dockerfile
+      target: runner
+    container_name: daily-checkin-frontend
+    ports:
+      - "3000:80"
+    environment:
+      - EXPO_PUBLIC_API_URL=http://localhost:3001
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - daily-checkin-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # Development Backend (for local development)
+  backend-dev:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+      target: builder
+    container_name: daily-checkin-backend-dev
+    ports:
+      - "3002:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - FRONTEND_URL=http://localhost:3000
+    volumes:
+      - ./apps/backend/src:/app/src
+      - ./apps/backend/package.json:/app/package.json
+    command: npm run dev
+    networks:
+      - daily-checkin-network
+    profiles:
+      - dev
+    restart: unless-stopped
+
+  # Nginx Reverse Proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: daily-checkin-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - daily-checkin-network
+    profiles:
+      - production
+    restart: unless-stopped
+
+  # Redis (for future caching and session storage)
+  redis:
+    image: redis:7-alpine
+    container_name: daily-checkin-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - daily-checkin-network
+    profiles:
+      - production
+    restart: unless-stopped
+
+  # PostgreSQL (for future data persistence)
+  postgres:
+    image: postgres:15-alpine
+    container_name: daily-checkin-postgres
+    environment:
+      POSTGRES_DB: daily_checkin
+      POSTGRES_USER: checkin_user
+      POSTGRES_PASSWORD: checkin_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - daily-checkin-network
+    profiles:
+      - production
+    restart: unless-stopped
+
+networks:
+  daily-checkin-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local 
