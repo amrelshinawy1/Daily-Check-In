@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,6 +10,7 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, './src'),
       'react-native': 'react-native-web',
+      '@daily-check-in/shared-components': path.resolve(__dirname, '../../packages/shared-components/src'),
     },
   },
   server: {

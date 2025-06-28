@@ -2,21 +2,32 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
   "pipeline": {
-    "gen": {
-      "cache": false
-    },
     "build": {
-      "cache": false
-    },
-    "lint": {
-      "cache": false
-    },
-    "test": {
-      "cache": false
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "build/**"]
     },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "start": {
+      "cache": false,
+      "persistent": true
+    },
+    "ios": {
+      "cache": false,
+      "persistent": true
+    },
+    "android": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
     },
     "clean": {
       "cache": false
@@ -25,12 +36,6 @@
       "cache": false
     },
     "bundle:android": {
-      "cache": false
-    },
-    "ios": {
-      "cache": false
-    },
-    "android": {
       "cache": false
     },
     "preview": {
