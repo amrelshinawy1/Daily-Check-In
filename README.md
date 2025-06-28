@@ -1,26 +1,159 @@
-# 🌟 Daily Check-In MVP
+# Daily Check-In MVP
 
-A personalized digital health coach MVP built with React Native + Tamagui frontend and Node.js + Express backend.
+A personalized digital health coach MVP built with React Native and Node.js.
 
-> **Note**: This is my first time using Tamagui - really excited about the universal design system! Still figuring out the best patterns for cross-platform development.
+## 🏗️ Architecture
+
+- **Frontend**: React Native + Tamagui (Mobile App)
+- **Backend**: Node.js + Express (REST API)
+- **Monorepo**: Turborepo for efficient development
 
 ## 🚀 Quick Start
 
+### Prerequisites
+
+- Node.js 18+
+- pnpm 8+
+- React Native CLI
+- iOS Simulator (for iOS development)
+- Android Studio (for Android development)
+
+### Installation
+
 ```bash
 # Install dependencies
-pnpm install
+pnpm install:all
 
-# Start development servers
-pnpm dev
-
-# Run tests
-pnpm test
-
-# Build for production
-pnpm build
+# Clean install (if you encounter issues)
+pnpm build:clean
 ```
 
-## 📱 Features
+### Development
+
+```bash
+# Start React Native development server
+pnpm dev:mobile
+
+# Start backend development server
+pnpm dev:backend
+
+# Run on iOS simulator
+cd apps/client && pnpm ios
+
+# Run on Android emulator
+cd apps/client && pnpm android
+```
+
+### Building
+
+```bash
+# Build iOS bundle
+pnpm build:ios
+
+# Build Android bundle
+pnpm build:android
+
+# Build both platforms
+pnpm build:mobile
+```
+
+### Testing
+
+```bash
+# Run all tests
+pnpm test
+
+# Run mobile tests only
+pnpm test:mobile
+
+# Run backend tests only
+pnpm test:backend
+```
+
+## 📱 Available Scripts
+
+### Client (React Native)
+
+- `dev` - Start React Native development server
+- `dev-reset` - Start with cache reset
+- `ios` - Run on iOS simulator
+- `android` - Run on Android emulator
+- `bundle:ios` - Create iOS bundle
+- `bundle:android` - Create Android bundle
+- `lint` - Run ESLint
+- `test` - Run Jest tests
+
+### Backend
+
+- `dev` - Start development server
+- `build` - Build for production
+- `test` - Run tests
+- `lint` - Run ESLint
+
+## 🏗️ Project Structure
+
+```
+daily-check-in-mvp/
+├── apps/
+│   ├── client/          # React Native mobile app
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   ├── screens/
+│   │   │   ├── services/
+│   │   │   └── types/
+│   │   └── ...
+│   └── backend/         # Node.js API server
+│       ├── src/
+│       │   ├── controllers/
+│       │   ├── services/
+│       │   ├── routes/
+│       │   └── types/
+│       └── ...
+├── packages/
+│   └── config/          # Shared configuration
+├── scripts/
+│   └── build.sh         # Build automation
+└── e2e/                 # End-to-end tests
+```
+
+## 🧪 Testing
+
+The project includes comprehensive testing:
+
+- **Unit Tests**: Jest for both frontend and backend
+- **E2E Tests**: Playwright for integration testing
+- **Linting**: ESLint for code quality
+
+## 🐳 Docker
+
+```bash
+# Build and run with Docker Compose
+docker-compose up --build
+```
+
+## 📦 Deployment
+
+### Mobile App
+- iOS: Build and submit to App Store
+- Android: Build APK/AAB and submit to Google Play
+
+### Backend API
+- Deploy to your preferred cloud platform
+- Environment variables are configured via `.env` files
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🎯 Features
 
 - ✅ Emoji-based mood selection (😀, 😐, 😔, 😤)
 - ✅ Energy level slider (1-10 scale)
@@ -39,27 +172,6 @@ pnpm build
 - **Node.js** - JavaScript runtime
 - **Express** - Web framework
 - **TypeScript** - Type safety
-
-## 🏛️ Architecture
-
-### Backend (MVC Pattern)
-```
-apps/backend/src/
-├── controllers/     # HTTP request handlers
-├── services/        # Business logic
-├── routes/          # API route definitions
-├── types/           # TypeScript interfaces
-└── app.ts          # Express app setup
-```
-
-### Frontend (Component-Based)
-```
-apps/client/src/
-├── components/      # Reusable UI components
-├── screens/         # Screen components
-├── services/        # API integration
-└── types/           # TypeScript interfaces
-```
 
 ## 🎯 Development Decisions
 

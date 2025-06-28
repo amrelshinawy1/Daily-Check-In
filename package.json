@@ -2,24 +2,38 @@
   "name": "daily-check-in-mvp",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "e2e": "turbo run e2e",
-    "clean": "turbo run clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "test:watch": "turbo test:watch",
+    "test:coverage": "turbo test:coverage",
+    "e2e": "turbo e2e",
+    "clean": "turbo clean",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "install:all": "pnpm install",
+    "build:clean": "./scripts/build.sh clean",
+    "build:mobile": "./scripts/build.sh build mobile",
+    "build:ios": "./scripts/build.sh build ios",
+    "build:android": "./scripts/build.sh build android",
+    "build:all": "./scripts/build.sh all",
+    "dev:mobile": "./scripts/build.sh dev mobile",
+    "dev:backend": "./scripts/build.sh dev backend",
+    "dev:web": "turbo dev --filter=web",
+    "test:mobile": "./scripts/build.sh test mobile",
+    "test:backend": "./scripts/build.sh test backend",
+    "test:web": "turbo test --filter=web",
+    "bundle:ios": "turbo bundle:ios",
+    "bundle:android": "turbo bundle:android",
+    "ios": "turbo ios",
+    "android": "turbo android"
   },
   "devDependencies": {
     "@react-native-community/cli": "latest",
     "@turbo/gen": "^1.12.4",
     "prettier": "^3.1.1",
-    "turbo": "^2.5.4"
+    "turbo": "1.12.4"
   },
   "packageManager": "pnpm@10.12.4"
 }

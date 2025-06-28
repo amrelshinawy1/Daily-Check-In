@@ -28,8 +28,14 @@ export class CheckinController {
       }
 
       // Validate mood emoji - TODO: Move this to a config file
-      const validMoods = ['😀', '😐', '😔', '😤'];
-      if (!validMoods.includes(mood)) {
+      const moods = [
+        { emoji: '😀', value: 'happy', label: 'Happy' },
+        { emoji: '😐', value: 'neutral', label: 'Neutral' },
+        { emoji: '😔', value: 'sad', label: 'Sad' },
+        { emoji: '😤', value: 'frustrated', label: 'Frustrated' },
+      ].map((mood) => mood.value);
+
+      if (!moods.includes(mood)) {
         res.status(400).json({ 
           error: 'Invalid mood',
           message: 'Please select a valid mood emoji'
