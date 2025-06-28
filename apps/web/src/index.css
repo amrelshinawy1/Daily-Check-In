@@ -135,7 +135,7 @@ body {
 /* Main Layout */
 .checkin-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -163,7 +163,7 @@ body {
   font-size: 1.125rem;
   color: var(--text-secondary);
   line-height: 1.6;
-  max-width: 500px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -197,7 +197,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 1rem;
-  max-width: 500px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -254,7 +254,7 @@ body {
 /* Energy Slider */
 .energy-slider {
   width: 100%;
-  max-width: 400px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
