@@ -1,38 +1,58 @@
 import React from 'react';
-import { YStack, Text, Slider, XStack } from 'tamagui';
 
 interface EnergySliderProps {
   energy: number;
   onEnergyChange: (energy: number) => void;
 }
 
+const getEnergyColor = (energy: number) => {
+  if (energy <= 3) return '#ef4444'; // Red for low energy
+  if (energy <= 6) return '#f59e0b'; // Yellow for medium energy
+  return '#10b981'; // Green for high energy
+};
+
+const getEnergyEmoji = (energy: number) => {
+  if (energy <= 3) return '😴';
+  if (energy <= 6) return '😐';
+  return '⚡';
+};
+
 export const EnergySlider: React.FC<EnergySliderProps> = ({
   energy,
   onEnergyChange,
 }) => {
+  const energyColor = getEnergyColor(energy);
+  const energyEmoji = getEnergyEmoji(energy);
+
   return (
-    <YStack space="$2" width="100%">
-      <Text fontSize="$4" textAlign="center">
-        Energy Level: {energy}/10
-      </Text>
-      <Slider
-        size="$4"
-        width="100%"
-        min={1}
-        max={10}
-        step={1}
-        value={[energy]}
-        onValueChange={(values) => onEnergyChange(values[0])}
-      >
-        <Slider.Track>
-          <Slider.TrackActive />
-        </Slider.Track>
-        <Slider.Thumb index={0} />
-      </Slider>
-      <XStack justifyContent="space-between" marginTop="$2">
-        <Text fontSize="$2" color="$gray10">Low Energy</Text>
-        <Text fontSize="$2" color="$gray10">High Energy</Text>
-      </XStack>
-    </YStack>
+    <div className="energy-slider slide-up">
+      <div className="energy-header">
+        <div className="energy-display">
+          <span className="energy-emoji">{energyEmoji}</span>
+          <span className="energy-value" style={{ color: energyColor }}>
+            {energy}/10
+          </span>
+        </div>
+      </div>
+      
+      <div className="slider-container">
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={energy}
+          onChange={(e) => onEnergyChange(parseInt(e.target.value))}
+          className="energy-range"
+          style={{
+            '--track-color': energyColor,
+          } as React.CSSProperties}
+        />
+        
+        <div className="energy-labels">
+          <span className="energy-label">Low Energy 😴</span>
+          <span className="energy-label">High Energy ⚡</span>
+        </div>
+      </div>
+    </div>
   );
 }; 

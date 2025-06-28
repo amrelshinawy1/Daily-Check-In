@@ -1,5 +1,4 @@
 import React from 'react';
-import { XStack, Button, Text } from 'tamagui';
 
 interface MoodSelectorProps {
   selectedMood: string | null;
@@ -7,10 +6,10 @@ interface MoodSelectorProps {
 }
 
 const moods = [
-  { emoji: '😀', value: 'happy', label: 'Happy' },
-  { emoji: '😐', value: 'neutral', label: 'Neutral' },
-  { emoji: '😔', value: 'sad', label: 'Sad' },
-  { emoji: '😤', value: 'frustrated', label: 'Frustrated' },
+  { emoji: '😊', value: 'happy', label: 'Happy', color: '#10b981' },
+  { emoji: '😐', value: 'neutral', label: 'Neutral', color: '#f59e0b' },
+  { emoji: '😔', value: 'sad', label: 'Sad', color: '#3b82f6' },
+  { emoji: '😤', value: 'frustrated', label: 'Frustrated', color: '#ef4444' },
 ];
 
 export const MoodSelector: React.FC<MoodSelectorProps> = ({
@@ -18,21 +17,28 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
   onMoodSelect,
 }) => {
   return (
-    <XStack space="$4" justifyContent="center" flexWrap="wrap">
-      {moods.map((mood) => (
-        <Button
-          key={mood.value}
-          size="$4"
-          variant={selectedMood === mood.value ? 'filled' : 'outlined'}
-          onPress={() => onMoodSelect(mood.value as any)}
-          pressStyle={{ scale: 0.95 }}
-        >
-          <Text fontSize="$6">{mood.emoji}</Text>
-          <Text fontSize="$3" marginLeft="$2">
-            {mood.label}
-          </Text>
-        </Button>
-      ))}
-    </XStack>
+    <div className="mood-selector slide-up">
+      <div className="mood-grid">
+        {moods.map((mood, index) => (
+          <button
+            key={mood.value}
+            className={`mood-option ${selectedMood === mood.value ? 'selected' : ''}`}
+            onClick={() => onMoodSelect(mood.value as any)}
+            style={{
+              animationDelay: `${index * 100}ms`
+            }}
+          >
+            <div className="mood-emoji">{mood.emoji}</div>
+            <div className="mood-label">{mood.label}</div>
+            {selectedMood === mood.value && (
+              <div 
+                className="mood-indicator"
+                style={{ backgroundColor: mood.color }}
+              />
+            )}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }; 

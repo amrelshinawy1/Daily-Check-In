@@ -1,15 +1,4 @@
 import React, { useState } from 'react';
-import {
-  YStack,
-  XStack,
-  Text,
-  Button,
-  TextArea,
-  H1,
-  H2,
-  Paragraph,
-  ScrollView,
-} from 'tamagui';
 import { MoodSelector } from '../components/MoodSelector';
 import { EnergySlider } from '../components/EnergySlider';
 import { SuggestionCard } from '../components/SuggestionCard';
@@ -50,67 +39,86 @@ export const DailyCheckInScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView padding="$4" maxWidth={600} margin="0 auto">
-      <YStack space="$6">
-        <YStack space="$2" alignItems="center">
-          <H1>🌟 Daily Check-In</H1>
-          <Paragraph textAlign="center" color="$gray11">
-            How are you feeling today?
-          </Paragraph>
-        </YStack>
+    <div className="checkin-container">
+      <div className="checkin-content">
+        {/* Header */}
+        <header className="checkin-header slide-up">
+          <h1 className="checkin-title">Daily Check-In</h1>
+          <p className="checkin-subtitle">
+            Take a moment to reflect on how you're feeling today. 
+            We'll provide personalized wellness suggestions based on your mood and energy.
+          </p>
+        </header>
 
-        <YStack space="$4">
-          <YStack space="$3">
-            <H2>Mood</H2>
+        {/* Main Form */}
+        <div className="checkin-form card slide-up">
+          {/* Mood Selection */}
+          <section className="form-section">
+            <h2 className="section-title">How are you feeling?</h2>
             <MoodSelector selectedMood={mood} onMoodSelect={setMood} />
-          </YStack>
+          </section>
 
-          <YStack space="$3">
-            <H2>Energy Level (1-10)</H2>
+          {/* Energy Level */}
+          <section className="form-section">
+            <h2 className="section-title">Energy Level</h2>
             <EnergySlider energy={energy} onEnergyChange={setEnergy} />
-          </YStack>
+          </section>
 
-          <YStack space="$3">
-            <H2>Notes (Optional)</H2>
-            <TextArea
-              placeholder="Any thoughts or notes?"
+          {/* Notes */}
+          <section className="form-section">
+            <h2 className="section-title">Any thoughts or notes?</h2>
+            <textarea
+              className="input textarea"
+              placeholder="Share what's on your mind... (optional)"
               value={notes}
-              onChangeText={setNotes}
-              minHeight={100}
+              onChange={(e) => setNotes(e.target.value)}
             />
-          </YStack>
+          </section>
 
+          {/* Error Message */}
           {error && (
-            <Text color="$red10" textAlign="center">
-              {error}
-            </Text>
+            <div className="error-message slide-up">
+              <span className="error-icon">⚠️</span>
+              <span>{error}</span>
+            </div>
           )}
 
-          <Button
-            size="$4"
-            onPress={handleSubmit}
+          {/* Submit Button */}
+          <button
+            className={`btn btn-primary btn-lg ${isLoading ? 'loading' : ''}`}
+            onClick={handleSubmit}
             disabled={isLoading || !mood}
-            backgroundColor={!mood ? '$gray5' : '$blue10'}
           >
-            <Text color="white" fontWeight="bold">
-              {isLoading ? 'Submitting...' : 'Get Wellness Tips'}
-            </Text>
-          </Button>
-        </YStack>
+            {isLoading ? (
+              <>
+                <span className="loading-spinner"></span>
+                Getting Suggestions...
+              </>
+            ) : (
+              <>
+                <span>✨</span>
+                Get Wellness Tips
+              </>
+            )}
+          </button>
+        </div>
 
+        {/* Suggestions */}
         {suggestions.length > 0 && (
-          <YStack space="$4">
-            <H2 textAlign="center">Your Wellness Suggestions</H2>
-            {suggestions.map((suggestion, index) => (
-              <SuggestionCard
-                key={index}
-                suggestion={suggestion}
-                index={index}
-              />
-            ))}
-          </YStack>
+          <section className="suggestions-section slide-up">
+            <h2 className="suggestions-title">Your Wellness Suggestions</h2>
+            <div className="suggestions-grid">
+              {suggestions.map((suggestion, index) => (
+                <SuggestionCard
+                  key={index}
+                  suggestion={suggestion}
+                  index={index}
+                />
+              ))}
+            </div>
+          </section>
         )}
-      </YStack>
-    </ScrollView>
+      </div>
+    </div>
   );
 }; 
