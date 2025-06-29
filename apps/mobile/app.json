@@ -1,4 +1,10 @@
 {
   "name": "mobile",
-  "displayName": "Daily Check-In"
-} 
+  "displayName": "Daily Check-In",
+  "android": {
+    "package": "com.anonymous.mobile"
+  },
+  "ios": {
+    "bundleIdentifier": "com.anonymous.mobile"
+  }
+}
