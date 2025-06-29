@@ -34,14 +34,17 @@ pnpm build:clean
 # Start React Native development server
 pnpm dev:mobile
 
+# Start React development server
+pnpm dev:web
+
 # Start backend development server
 pnpm dev:backend
 
 # Run on iOS simulator
-cd apps/client && pnpm ios
+cd apps/mobile && pnpm ios
 
 # Run on Android emulator
-cd apps/client && pnpm android
+cd apps/mobile && pnpm android
 ```
 
 ### Building
@@ -55,6 +58,9 @@ pnpm build:android
 
 # Build both platforms
 pnpm build:mobile
+
+# Build web platforms
+pnpm build:web
 ```
 
 ### Testing
@@ -65,6 +71,9 @@ pnpm test
 
 # Run mobile tests only
 pnpm test:mobile
+
+# Run web tests only
+pnpm test:web
 
 # Run backend tests only
 pnpm test:backend
@@ -95,7 +104,14 @@ pnpm test:backend
 ```
 daily-check-in-mvp/
 ├── apps/
-│   ├── client/          # React Native mobile app
+│   ├── web/          # React web app
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   ├── screens/
+│   │   │   ├── services/
+│   │   │   └── types/
+│   │   └── ...
+│   ├── mobile/          # React Native mobile app
 │   │   ├── src/
 │   │   │   ├── components/
 │   │   │   ├── screens/
@@ -121,7 +137,6 @@ daily-check-in-mvp/
 The project includes comprehensive testing:
 
 - **Unit Tests**: Jest for both frontend and backend
-- **E2E Tests**: Playwright for integration testing
 - **Linting**: ESLint for code quality
 
 ## 🐳 Docker
@@ -129,6 +144,8 @@ The project includes comprehensive testing:
 ```bash
 # Build and run with Docker Compose
 docker-compose up --build
+
+next to be added with a well setup and use the pipeline to push the docker images to docker registery and use openshift to manage the pods and scale our sarives as needed
 ```
 
 ## 📦 Deployment
@@ -141,19 +158,9 @@ docker-compose up --build
 - Deploy to your preferred cloud platform
 - Environment variables are configured via `.env` files
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests and linting
-5. Submit a pull request
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 🎯 Features
+## Features
 
 - ✅ Emoji-based mood selection (😀, 😐, 😔, 😤)
 - ✅ Energy level slider (1-10 scale)
@@ -173,26 +180,6 @@ This project is licensed under the MIT License.
 - **Express** - Web framework
 - **TypeScript** - Type safety
 
-## 🎯 Development Decisions
-
-### Why Tamagui?
-I chose Tamagui over other UI libraries because:
-- Universal design system (web + mobile)
-- Great TypeScript support
-- Built-in theming and animations
-- Active community
-
-### Why Emoji-based Mood Selection?
-- More intuitive than dropdown menus
-- Universal language (no translation needed)
-- Faster interaction
-- Visual and fun
-
-### Energy Scale (1-10)
-- 1-3: Low energy
-- 4-7: Medium energy  
-- 8-10: High energy
-
 ## 🚧 TODO / Future Improvements
 
 ### Short-term (this week)
@@ -200,6 +187,7 @@ I chose Tamagui over other UI libraries because:
 - [ ] Implement offline support
 - [ ] Add loading states and better error handling
 - [ ] Fix the iOS build issues (need to set up proper React Native CLI)
+- [ ] Add more test coverage unit test, e2e test, automation test and performance test
 
 ### Medium-term (next month)
 - [ ] User authentication
@@ -274,23 +262,3 @@ docker-compose up --build
 docker-compose up backend
 docker-compose up frontend
 ```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-MIT License
-
-## 🙏 Acknowledgments
-
-- Tamagui team for the amazing UI framework
-- React Native team for the excellent development platform
-- Turborepo team for the powerful monorepo tooling
-
----
